@@ -3,7 +3,7 @@
 namespace BancoAtlantidaChallenge.Domain.Entities;
 public class TarjetaDeCredito : BaseEntity
 {
-    public string? NumeroDeTarjeta { get; set; }
+    public string NumeroDeTarjeta { get; set; } = string.Empty;
     public int Limite { get; set; }
     public decimal SaldoTotal { get; set; }
     public decimal PorcentajeInteresConfigurable { get; set; }
