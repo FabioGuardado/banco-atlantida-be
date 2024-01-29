@@ -4,6 +4,7 @@ using BancoAtlantidaChallenge.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BancoAtlantidaChallenge.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240129232300_SeedClientesTable")]
+    partial class SeedClientesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,6 +57,7 @@ namespace BancoAtlantidaChallenge.Infrastructure.Data.Migrations
                             Id = 2,
                             Apellidos = "Martinez",
                             Nombres = "Jose"
+                        });
                 });
 
             modelBuilder.Entity("BancoAtlantidaChallenge.Domain.Entities.Compra", b =>
