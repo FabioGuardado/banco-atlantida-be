@@ -9,6 +9,6 @@ public class TarjetaDeCredito : BaseEntity
     public decimal PorcentajeInteresConfigurable { get; set; }
     public decimal PorcentajeConfigurableSaldoMinimo { get; set; }
 
+    public virtual required Cliente Cliente { get; set; }
     public int ClienteId { get; set; }
-    public Cliente? Cliente { get; set; }
 }
