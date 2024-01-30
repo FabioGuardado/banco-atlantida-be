@@ -4,6 +4,7 @@ using BancoAtlantidaChallenge.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BancoAtlantidaChallenge.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240129233112_SeedComprasTable")]
+    partial class SeedComprasTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -175,26 +178,6 @@ namespace BancoAtlantidaChallenge.Infrastructure.Data.Migrations
                     b.HasIndex("TarjetaDeCreditoId");
 
                     b.ToTable("Pagos");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Abono = 3.00m,
-                            Descripcion = "Pago de TC",
-                            Fecha = new DateTime(2024, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumeroDeAutorizacion = "005185",
-                            TarjetaDeCreditoId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Abono = 12.43m,
-                            Descripcion = "Pago de TC",
-                            Fecha = new DateTime(2024, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumeroDeAutorizacion = "224235",
-                            TarjetaDeCreditoId = 1
-                        });
                 });
 
             modelBuilder.Entity("BancoAtlantidaChallenge.Domain.Entities.TarjetaDeCredito", b =>

@@ -5,7 +5,7 @@ namespace BancoAtlantidaChallenge.Application.Common.Exceptions;
 public class ValidationException : Exception
 {
     public ValidationException()
-        : base("One or more validation failures have occurred.")
+        : base("Una o más validaciones fallaron.")
     {
         Errors = new Dictionary<string, string[]>();
     }

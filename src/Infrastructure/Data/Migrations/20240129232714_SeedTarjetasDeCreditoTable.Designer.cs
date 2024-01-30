@@ -4,6 +4,7 @@ using BancoAtlantidaChallenge.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BancoAtlantidaChallenge.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240129232714_SeedTarjetasDeCreditoTable")]
+    partial class SeedTarjetasDeCreditoTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,62 +90,6 @@ namespace BancoAtlantidaChallenge.Infrastructure.Data.Migrations
                     b.HasIndex("TarjetaDeCreditoId");
 
                     b.ToTable("Compras");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Descripcion = "Walmart",
-                            Fecha = new DateTime(2023, 12, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Monto = 12.43m,
-                            NumeroDeAutorizacion = "551341",
-                            TarjetaDeCreditoId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Descripcion = "Starbucks",
-                            Fecha = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Monto = 7.78m,
-                            NumeroDeAutorizacion = "454123",
-                            TarjetaDeCreditoId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Descripcion = "Recarga Tigo",
-                            Fecha = new DateTime(2023, 12, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Monto = 3.00m,
-                            NumeroDeAutorizacion = "442152",
-                            TarjetaDeCreditoId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Descripcion = "Recarga Tigo",
-                            Fecha = new DateTime(2024, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Monto = 2.50m,
-                            NumeroDeAutorizacion = "785424",
-                            TarjetaDeCreditoId = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Descripcion = "Farmacia San Nicolás",
-                            Fecha = new DateTime(2024, 1, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Monto = 54.00m,
-                            NumeroDeAutorizacion = "623121",
-                            TarjetaDeCreditoId = 1
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Descripcion = "Super Selectos",
-                            Fecha = new DateTime(2024, 1, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Monto = 34.76m,
-                            NumeroDeAutorizacion = "323235",
-                            TarjetaDeCreditoId = 1
-                        });
                 });
 
             modelBuilder.Entity("BancoAtlantidaChallenge.Domain.Entities.Pago", b =>
@@ -175,26 +122,6 @@ namespace BancoAtlantidaChallenge.Infrastructure.Data.Migrations
                     b.HasIndex("TarjetaDeCreditoId");
 
                     b.ToTable("Pagos");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Abono = 3.00m,
-                            Descripcion = "Pago de TC",
-                            Fecha = new DateTime(2024, 1, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumeroDeAutorizacion = "005185",
-                            TarjetaDeCreditoId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Abono = 12.43m,
-                            Descripcion = "Pago de TC",
-                            Fecha = new DateTime(2024, 1, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NumeroDeAutorizacion = "224235",
-                            TarjetaDeCreditoId = 1
-                        });
                 });
 
             modelBuilder.Entity("BancoAtlantidaChallenge.Domain.Entities.TarjetaDeCredito", b =>
