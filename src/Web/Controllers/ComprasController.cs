@@ -1,4 +1,5 @@
-﻿using BancoAtlantidaChallenge.Application.Compras.Queries.GetComprasByTarjetaDeCreditoId;
+﻿using BancoAtlantidaChallenge.Application.Compras.Commands.CreateCompra;
+using BancoAtlantidaChallenge.Application.Compras.Queries.GetComprasByTarjetaDeCreditoId;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -17,8 +18,15 @@ public class ComprasController : ControllerBase
 
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CompraSummaryDto>>> GetComprasByTarjetaDeCreditoId([FromQuery, BindRequired] int id)
+    public async Task<IEnumerable<CompraSummaryDto>> GetComprasByTarjetaDeCreditoId([FromQuery, BindRequired] int id)
     {
-        return Ok(await _mediator.Send(new GetComprasByTarjetaDeCreditoIdQuery(id)));
+        return await _mediator.Send(new GetComprasByTarjetaDeCreditoIdQuery(id));
+    }
+
+    [HttpPost]
+    public async Task<IResult> PostNewCompra([FromBody, BindRequired] NewCompraDto newCompra)
+    {
+        await _mediator.Send(new CreateCompraCommand(newCompra));
+        return Results.Created();
     }
 }

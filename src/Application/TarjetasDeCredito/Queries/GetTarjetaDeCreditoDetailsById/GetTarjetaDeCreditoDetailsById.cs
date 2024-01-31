@@ -32,7 +32,7 @@ public class GetTarjetaDeCreditoDetailsByIdHandler : IRequestHandler<GetTarjetaD
                 Id = tarjetaDeCredito.Id,
                 NumeroDeTarjeta = tarjetaDeCredito.NumeroDeTarjeta,
                 Limite = tarjetaDeCredito.Limite,
-                TitularDeLaTarjeta = tarjetaDeCredito.Cliente.Nombres + tarjetaDeCredito.Cliente.Apellidos,
+                TitularDeLaTarjeta = tarjetaDeCredito.Cliente.Nombres + " " + tarjetaDeCredito.Cliente.Apellidos,
                 SaldoTotal = tarjetaDeCredito.SaldoTotal,
                 SaldoDisponible = tarjetaDeCredito.Limite - tarjetaDeCredito.SaldoTotal,
                 InteresBonificable = interesBonificable,

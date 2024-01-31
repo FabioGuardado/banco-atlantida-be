@@ -12,6 +12,7 @@ public class TarjetaDeCreditoSummaryDto
 {
     public int Id { get; set; }
     public string? NumeroDeTarjeta { get; set; }
+    public decimal SaldoTotal { get; set; }
 
     public ClienteSummaryDto? Cliente { get; set; }
 

@@ -1,7 +1,6 @@
 ﻿using BancoAtlantidaChallenge.Application.Common.Models;
 using BancoAtlantidaChallenge.Application.TarjetasDeCredito.Queries.GetAllTarjetasDeCredito;
 using BancoAtlantidaChallenge.Application.TarjetasDeCredito.Queries.GetTarjetaDeCreditoDetailsById;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -19,15 +18,15 @@ public class TarjetasDeCreditoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<PaginatedList<TarjetaDeCreditoSummaryDto>>> GetAllTarjetasDeCredito([FromQuery, BindRequired] int pageNumber, [FromQuery, BindRequired] int pageSize, [FromQuery] string? searchString)
+    public async Task<PaginatedList<TarjetaDeCreditoSummaryDto>> GetAllTarjetasDeCredito([FromQuery, BindRequired] int pageNumber, [FromQuery, BindRequired] int pageSize, [FromQuery] string? searchString)
     {
-        return Ok(await _mediator.Send(new GetAllTarjetasDeCreditoQuery(pageNumber, pageSize, searchString)));
+        return await _mediator.Send(new GetAllTarjetasDeCreditoQuery(pageNumber, pageSize, searchString));
     }
 
     [HttpGet]
     [Route("{id}")]
-    public async Task<ActionResult<TarjetaDeCreditoDetailDto>> GetTarjetaDeCreditoDetailsById([FromRoute, BindRequired] int id)
+    public async Task<TarjetaDeCreditoDetailDto> GetTarjetaDeCreditoDetailsById([FromRoute, BindRequired] int id)
     {
-        return Ok(await _mediator.Send(new GetTarjetaDeCreditoDetailsByIdQuery(id)));
+        return await _mediator.Send(new GetTarjetaDeCreditoDetailsByIdQuery(id));
     }
 }
