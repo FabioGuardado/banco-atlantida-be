@@ -14,7 +14,7 @@
         "operationId": "Compras_GetComprasByTarjetaDeCreditoId",
         "parameters": [
           {
-            "name": "id",
+            "name": "tarjetaDeCreditoId",
             "in": "query",
             "required": true,
             "schema": {
@@ -30,10 +30,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CompraSummaryDto"
-                  }
+                  "$ref": "#/components/schemas/CompraSummaryDto"
                 }
               }
             }
@@ -196,7 +193,7 @@
         "operationId": "Transacciones_GetAllTransacciones",
         "parameters": [
           {
-            "name": "pageNumber",
+            "name": "tarjetaDeCreditoId",
             "in": "query",
             "required": true,
             "schema": {
@@ -204,26 +201,6 @@
               "format": "int32"
             },
             "x-position": 1
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 2
-          },
-          {
-            "name": "id",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            },
-            "x-position": 3
           }
         ],
         "responses": {
@@ -232,7 +209,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaginatedListOfTransaccionDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TransaccionDto"
+                  }
                 }
               }
             }
@@ -244,6 +224,27 @@
   "components": {
     "schemas": {
       "CompraSummaryDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "compras": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/CompraDto"
+            }
+          },
+          "comprasTotalesMesPasado": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "comprasTotalesMesActual": {
+            "type": "number",
+            "format": "decimal"
+          }
+        }
+      },
+      "CompraDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -358,6 +359,14 @@
             "type": "string",
             "nullable": true
           },
+          "saldoTotal": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "limite": {
+            "type": "integer",
+            "format": "int32"
+          },
           "cliente": {
             "nullable": true,
             "oneOf": [
@@ -421,36 +430,6 @@
           "montoTotalDeContadoConIntereses": {
             "type": "number",
             "format": "decimal"
-          }
-        }
-      },
-      "PaginatedListOfTransaccionDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TransaccionDto"
-            }
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalPages": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "totalCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "hasPreviousPage": {
-            "type": "boolean"
-          },
-          "hasNextPage": {
-            "type": "boolean"
           }
         }
       },

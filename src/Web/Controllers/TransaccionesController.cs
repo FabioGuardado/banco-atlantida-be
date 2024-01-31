@@ -17,8 +17,8 @@ public class TransaccionesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<PaginatedList<TransaccionDto>> GetAllTransacciones([FromQuery, BindRequired] int pageNumber, [FromQuery, BindRequired] int pageSize, [FromQuery, BindRequired] int id)
+    public async Task<IEnumerable<TransaccionDto>> GetAllTransacciones([FromQuery, BindRequired] int tarjetaDeCreditoId)
     {
-        return await _mediator.Send(new GetAllTransaccionesByTarjetaDeCreditoIdQuery(pageNumber, pageSize, id));
+        return await _mediator.Send(new GetAllTransaccionesByTarjetaDeCreditoIdQuery(tarjetaDeCreditoId));
     }
 }

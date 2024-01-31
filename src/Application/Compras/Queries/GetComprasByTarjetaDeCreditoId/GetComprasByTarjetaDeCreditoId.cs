@@ -2,7 +2,7 @@
 using BancoAtlantidaChallenge.Application.Common.Mappings;
 
 namespace BancoAtlantidaChallenge.Application.Compras.Queries.GetComprasByTarjetaDeCreditoId;
-public record GetComprasByTarjetaDeCreditoIdQuery : IRequest<IEnumerable<CompraSummaryDto>>
+public record GetComprasByTarjetaDeCreditoIdQuery : IRequest<CompraSummaryDto>
 {
     public int Id { get; set; }
 
@@ -11,7 +11,7 @@ public record GetComprasByTarjetaDeCreditoIdQuery : IRequest<IEnumerable<CompraS
         Id = id;
     }
 
-    public class GetComprasByTarjetaDeCreditoId : IRequestHandler<GetComprasByTarjetaDeCreditoIdQuery, IEnumerable<CompraSummaryDto>>
+    public class GetComprasByTarjetaDeCreditoId : IRequestHandler<GetComprasByTarjetaDeCreditoIdQuery, CompraSummaryDto>
     {
         private readonly IApplicationDbContext _context;
         private readonly IMapper _mapper;
@@ -22,13 +22,23 @@ public record GetComprasByTarjetaDeCreditoIdQuery : IRequest<IEnumerable<CompraS
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CompraSummaryDto>> Handle(GetComprasByTarjetaDeCreditoIdQuery request, CancellationToken cancellationToken)
+        public async Task<CompraSummaryDto> Handle(GetComprasByTarjetaDeCreditoIdQuery request, CancellationToken cancellationToken)
         {
-            return await _context.Compras
+            var compras = await _context.Compras
                 .Where(c => c.TarjetaDeCreditoId == request.Id)
                 .Where(c => c.Fecha >= DateTime.Today.AddMonths(-1))
                 .OrderByDescending(c => c.Fecha)
-                .ProjectToListAsync<CompraSummaryDto>(_mapper.ConfigurationProvider);
+                .ProjectToListAsync<CompraDto>(_mapper.ConfigurationProvider);
+
+            var comprasTotalesMesPasado = await _context.Compras
+                .Where(c => c.TarjetaDeCreditoId == request.Id)
+                .Where(c => c.Fecha <= DateTime.Today.AddMonths(-1) && c.Fecha >= DateTime.Today.AddMonths(-2)).SumAsync(c => c.Monto);
+
+            var comprasTotalesMesActual = await _context.Compras
+                .Where(c => c.TarjetaDeCreditoId == request.Id)
+                .Where(c => c.Fecha >= DateTime.Today.AddMonths(-1)).SumAsync(c => c.Monto);
+
+            return new CompraSummaryDto { Compras = compras, ComprasTotalesMesPasado = comprasTotalesMesPasado, ComprasTotalesMesActual = comprasTotalesMesActual };
         }
     }
 }
