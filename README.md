@@ -38,3 +38,6 @@ También está disponible la documentación de Swagger en la siguiente direcció
 ## Modelo de datos
 La base de datos para este proyecto consiste en 4 tablas, siendo la principal "TarjetasDeCredito", esta tabla se relaciona con la tabla "Clientes" a través de una llave foránea, 
 y tiene relaciones con las tablas "Compras" y "Pagos" que guardan en sus registros la referencia a la tarjeta de crédito a la que va dirigida la operación.
+
+![image](https://github.com/FabioGuardado/banco-atlantida-be/assets/47063285/e49e0db0-f201-42f8-becc-bf859d260407)
+
