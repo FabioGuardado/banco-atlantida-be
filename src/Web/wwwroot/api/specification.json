@@ -5,7 +5,468 @@
     "title": "BancoAtlantidaChallenge API",
     "version": "1.0.0"
   },
+  "paths": {
+    "/api/Compras": {
+      "get": {
+        "tags": [
+          "Compras"
+        ],
+        "operationId": "Compras_GetComprasByTarjetaDeCreditoId",
+        "parameters": [
+          {
+            "name": "tarjetaDeCreditoId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompraSummaryDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Compras"
+        ],
+        "operationId": "Compras_PostNewCompra",
+        "requestBody": {
+          "x-name": "newCompra",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewCompraDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Pagos": {
+      "post": {
+        "tags": [
+          "Pagos"
+        ],
+        "operationId": "Pagos_PostNewPago",
+        "requestBody": {
+          "x-name": "newPago",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPagoDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TarjetasDeCredito": {
+      "get": {
+        "tags": [
+          "TarjetasDeCredito"
+        ],
+        "operationId": "TarjetasDeCredito_GetAllTarjetasDeCredito",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedListOfTarjetaDeCreditoSummaryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TarjetasDeCredito/{id}": {
+      "get": {
+        "tags": [
+          "TarjetasDeCredito"
+        ],
+        "operationId": "TarjetasDeCredito_GetTarjetaDeCreditoDetailsById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TarjetaDeCreditoDetailDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Transacciones": {
+      "get": {
+        "tags": [
+          "Transacciones"
+        ],
+        "operationId": "Transacciones_GetAllTransacciones",
+        "parameters": [
+          {
+            "name": "tarjetaDeCreditoId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TransaccionDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "components": {
+    "schemas": {
+      "CompraSummaryDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "compras": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/CompraDto"
+            }
+          },
+          "comprasTotalesMesPasado": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "comprasTotalesMesActual": {
+            "type": "number",
+            "format": "decimal"
+          }
+        }
+      },
+      "CompraDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "numeroDeAutorizacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "monto": {
+            "type": "number",
+            "format": "decimal"
+          }
+        }
+      },
+      "NewCompraDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "monto": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "tarjetaDeCreditoId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "NewPagoDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "abono": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "tarjetaDeCreditoId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PaginatedListOfTarjetaDeCreditoSummaryDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TarjetaDeCreditoSummaryDto"
+            }
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          }
+        }
+      },
+      "TarjetaDeCreditoSummaryDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "numeroDeTarjeta": {
+            "type": "string",
+            "nullable": true
+          },
+          "saldoTotal": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "limite": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cliente": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ClienteSummaryDto"
+              }
+            ]
+          }
+        }
+      },
+      "ClienteSummaryDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "nombres": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidos": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "TarjetaDeCreditoDetailDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "numeroDeTarjeta": {
+            "type": "string",
+            "nullable": true
+          },
+          "titularDeLaTarjeta": {
+            "type": "string",
+            "nullable": true
+          },
+          "limite": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "saldoTotal": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "saldoDisponible": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "interesBonificable": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "cuotaMinimaAPagar": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "montoTotalDeContadoConIntereses": {
+            "type": "number",
+            "format": "decimal"
+          }
+        }
+      },
+      "TransaccionDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "numeroDeAutorizacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "abono": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "monto": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          }
+        }
+      }
+    },
     "securitySchemes": {
       "JWT": {
         "type": "apiKey",
