@@ -39,6 +39,70 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "Compras"
+        ],
+        "operationId": "Compras_PostNewCompra",
+        "requestBody": {
+          "x-name": "newCompra",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewCompraDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Pagos": {
+      "post": {
+        "tags": [
+          "Pagos"
+        ],
+        "operationId": "Pagos_PostNewPago",
+        "requestBody": {
+          "x-name": "newPago",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewPagoDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/TarjetasDeCredito": {
@@ -203,6 +267,52 @@
           "monto": {
             "type": "number",
             "format": "decimal"
+          }
+        }
+      },
+      "NewCompraDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "monto": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "tarjetaDeCreditoId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "NewPagoDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "fecha": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "abono": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "tarjetaDeCreditoId": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
