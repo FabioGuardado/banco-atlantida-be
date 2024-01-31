@@ -4,10 +4,26 @@ public class CreatePagoCommandValidator : AbstractValidator<CreatePagoCommand>
     public CreatePagoCommandValidator()
     {
 
-        RuleFor(x => x.NewPago)
+        RuleFor(x => x.NewPago.Abono)
             .NotNull()
             .NotEmpty()
-            .WithMessage("Parámetros inválidos para crear nuevo pago.");
+            .GreaterThanOrEqualTo(1)
+            .WithMessage("Parámetro Abono es inválido.");
+
+        RuleFor(x => x.NewPago.Descripcion)
+            .NotNull()
+            .NotEmpty()
+            .WithMessage("Parámetro Descripcion es inválido.");
+
+        RuleFor(x => x.NewPago.Fecha)
+            .NotNull()
+            .NotEmpty()
+            .WithMessage("Parámetro Fecha es inválido.");
+
+        RuleFor(x => x.NewPago.TarjetaDeCreditoId)
+            .NotNull()
+            .NotEmpty()
+            .WithMessage("Parámetro TarjetaDeCreditoId es inválido.");
 
     }
 }

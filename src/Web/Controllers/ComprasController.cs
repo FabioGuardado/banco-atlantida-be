@@ -18,9 +18,9 @@ public class ComprasController : ControllerBase
 
 
     [HttpGet]
-    public async Task<IEnumerable<CompraSummaryDto>> GetComprasByTarjetaDeCreditoId([FromQuery, BindRequired] int id)
+    public async Task<CompraSummaryDto> GetComprasByTarjetaDeCreditoId([FromQuery, BindRequired] int tarjetaDeCreditoId)
     {
-        return await _mediator.Send(new GetComprasByTarjetaDeCreditoIdQuery(id));
+        return await _mediator.Send(new GetComprasByTarjetaDeCreditoIdQuery(tarjetaDeCreditoId));
     }
 
     [HttpPost]

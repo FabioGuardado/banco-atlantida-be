@@ -7,10 +7,26 @@ public class CreateCompraCommandValidator : AbstractValidator<CreateCompraComman
     public CreateCompraCommandValidator()
     {
 
-        RuleFor(x => x.NewCompra)
+        RuleFor(x => x.NewCompra.Monto)
             .NotNull()
             .NotEmpty()
-            .WithMessage("Parámetros inválidos para crear nueva compra.");
+            .GreaterThanOrEqualTo(1)
+            .WithMessage("Parámetro Monto es inválido.");
+
+        RuleFor(x => x.NewCompra.Descripcion)
+            .NotNull()
+            .NotEmpty()
+            .WithMessage("Parámetro Descripcion es inválido.");
+
+        RuleFor(x => x.NewCompra.Fecha)
+            .NotNull()
+            .NotEmpty()
+            .WithMessage("Parámetro Fecha es inválido.");
+
+        RuleFor(x => x.NewCompra.TarjetaDeCreditoId)
+            .NotNull()
+            .NotEmpty()
+            .WithMessage("Parámetro TarjetaDeCreditoId es inválido.");
 
     }
 }

@@ -5,22 +5,17 @@ using BancoAtlantidaChallenge.Application.Common.Models;
 using BancoAtlantidaChallenge.Application.TarjetasDeCredito.Queries.GetTarjetaDeCreditoDetailsById;
 
 namespace BancoAtlantidaChallenge.Application.Transacciones.Queries.GetAllTransaccionesByTarjetaDeCreditoId;
-public record GetAllTransaccionesByTarjetaDeCreditoIdQuery : IRequest<PaginatedList<TransaccionDto>>
+public record GetAllTransaccionesByTarjetaDeCreditoIdQuery : IRequest<IEnumerable<TransaccionDto>>
 {
-    public int PageNumber { get; set; }
+    public int TarjetaDeCreditoId { get; set; }
 
-    public int PageSize { get; set; }
-    public int Id { get; set; }
-
-    public GetAllTransaccionesByTarjetaDeCreditoIdQuery(int pageNumber, int pageSize, int id)
+    public GetAllTransaccionesByTarjetaDeCreditoIdQuery(int tarjetaDeCreditoId)
     {
-        PageNumber = pageNumber;
-        PageSize = pageSize;
-        Id = id;
+        TarjetaDeCreditoId = tarjetaDeCreditoId;
     }
 }
 
-public class GetAllTransaccionesByTarjetaDeCreditoIdQueryHandler : IRequestHandler<GetAllTransaccionesByTarjetaDeCreditoIdQuery, PaginatedList<TransaccionDto>>
+public class GetAllTransaccionesByTarjetaDeCreditoIdQueryHandler : IRequestHandler<GetAllTransaccionesByTarjetaDeCreditoIdQuery, IEnumerable<TransaccionDto>>
 {
     private readonly IApplicationDbContext _context;
     private readonly IMapper _mapper;
@@ -31,10 +26,10 @@ public class GetAllTransaccionesByTarjetaDeCreditoIdQueryHandler : IRequestHandl
         _mapper = mapper;
     }
 
-    public async Task<PaginatedList<TransaccionDto>> Handle(GetAllTransaccionesByTarjetaDeCreditoIdQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<TransaccionDto>> Handle(GetAllTransaccionesByTarjetaDeCreditoIdQuery request, CancellationToken cancellationToken)
     {
         var result = _context.Compras
-            .Where(c => c.TarjetaDeCreditoId == request.Id)
+            .Where(c => c.TarjetaDeCreditoId == request.TarjetaDeCreditoId)
             .Select(c => new TransaccionDto
             {
                 Id = c.Id,
@@ -45,7 +40,7 @@ public class GetAllTransaccionesByTarjetaDeCreditoIdQueryHandler : IRequestHandl
                 Abono = null
             })
             .Union(_context.Pagos
-                .Where(p => p.TarjetaDeCreditoId == request.Id)
+                .Where(p => p.TarjetaDeCreditoId == request.TarjetaDeCreditoId)
                 .Select(p => new TransaccionDto
                 {
                     Id = p.Id,
@@ -58,9 +53,9 @@ public class GetAllTransaccionesByTarjetaDeCreditoIdQueryHandler : IRequestHandl
             ); ;
 
         return await result
+            .Where(c => c.Fecha >= DateTime.Today.AddMonths(-1))
             .OrderByDescending(x => x.Fecha)
-            .ProjectTo<TransaccionDto>(_mapper.ConfigurationProvider)
-            .PaginatedListAsync(request.PageNumber, request.PageSize);
+            .ProjectToListAsync<TransaccionDto>(_mapper.ConfigurationProvider);
 
     }
 }
