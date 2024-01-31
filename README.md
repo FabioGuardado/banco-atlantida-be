@@ -1,58 +1,40 @@
 ﻿# BancoAtlantidaChallenge
 
-The project was generated using the [Clean.Architecture.Solution.Template](https://github.com/jasontaylordev/BancoAtlantidaChallenge) version 8.0.0.
+Esta API proporciona un conjunto de endpoints para administrar Tarjetas de Credito, Pagos y Compras.
 
-## Build
+## Configurar el proyecto localmente
 
-Run `dotnet build -tl` to build the solution.
-
-## Run
-
-To run the web application:
-
+Para poder correr la API en local, es necesario dirigirse al código del proyecto y cambiar el string de conexión en el archivo:
 ```bash
-cd .\src\Web\
-dotnet watch run
+ appsettings.json (en la raíz del proyecto)
 ```
 
-Navigate to https://localhost:5001. The application will automatically reload if you change any of the source files.
 
-## Code Styles & Formatting
-
-The template includes [EditorConfig](https://editorconfig.org/) support to help maintain consistent coding styles for multiple developers working on the same project across various editors and IDEs. The **.editorconfig** file defines the coding styles applicable to this solution.
-
-## Code Scaffolding
-
-The template includes support to scaffold new commands and queries.
-
-Start in the `.\src\Application\` folder.
-
-Create a new command:
-
-```
-dotnet new ca-usecase --name CreateTodoList --feature-name TodoLists --usecase-type command --return-type int
-```
-
-Create a new query:
-
-```
-dotnet new ca-usecase -n GetTodos -fn TodoLists -ut query -rt TodosVm
-```
-
-If you encounter the error *"No templates or subcommands found matching: 'ca-usecase'."*, install the template and try again:
-
+Luego, es necesario ejecutar el siguiente comando:
 ```bash
-dotnet new install Clean.Architecture.Solution.Template::8.0.0
+dotnet ef database update --project src\Infrastructure --startup-project src\Web
 ```
 
-## Test
+Este comando ejecutará las migraciones y seed data correspondientes, ya que fue desarrollado con Entity Framework Core.
 
-The solution contains unit, integration, and functional tests.
+Cuando estos pasos se hayan completado y el servidor esté ejecutándose, puedes acceder a esta URL desde el navegador: https://localhost:5001.
 
-To run the tests:
-```bash
-dotnet test
-```
+## Endpoints
 
-## Help
-To learn more about the template go to the [project website](https://github.com/JasonTaylorDev/BancoAtlantidaChallenge). Here you can find additional guidance, request new features, report a bug, and discuss the template with other users.
+| Method   | endpoint                | parameters                        |
+|----------|-------------------------|-----------------------------------|
+| GET      | /Compras                | tarjetaDeCreditoId                |
+| POST     | /Compras                |                                   |
+| POST     | /Pagos                  |                                   |
+| GET      | /TarjetasDeCredito      | pageSize, pageNumber, searchString|
+| GET      | /TarjetasDeCredito/{id} | searchString                      |
+| GET      | /Transacciones          | tarjetaDeCreditoId                |
+
+
+Envío información más detallada sobre los endpoints por correo al momento de enviar esta prueba.
+
+También está disponible la documentación de Swagger en la siguiente dirección (local): https://localhost:5001/api/index.html?url=/api/specification.json
+
+## Modelo de datos
+La base de datos para este proyecto consiste en 4 tablas, siendo la principal "TarjetasDeCredito", esta tabla se relaciona con la tabla "Clientes" a través de una llave foránea, 
+y tiene relaciones con las tablas "Compras" y "Pagos" que guardan en sus registros la referencia a la tarjeta de crédito a la que va dirigida la operación.
